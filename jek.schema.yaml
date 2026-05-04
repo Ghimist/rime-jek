@@ -24,8 +24,8 @@ schema:
 engine:                # 輸入引擎設定，即掛接組件的「處方」
   processors:            # 一、這批組件處理各類按鍵消息
     - ascii_composer       # ※ 處理西文模式及中西文切換
-    # - recognizer           # ※ 與`matcher`搭配，處理符合特定規則的輸入碼，如網址、反查等`tags`
-    # - key_binder           # ※ 在特定條件下將按鍵綁定到其他按鍵，如重定義逗號、句號爲候選翻頁鍵等
+    - recognizer           # ※ 與`matcher`搭配，處理符合特定規則的輸入碼，如網址、反查等`tags`
+    - key_binder           # ※ 在特定條件下將按鍵綁定到其他按鍵，如重定義逗號、句號爲候選翻頁鍵等
     - speller              # ※ 拼寫處理器，接受字符按鍵，編輯輸入碼
     # - punctuator           # ※ 句讀處理器，將單個字符按鍵直接映射爲標點符號或文字符號
     - selector             # ※ 選字處理器，處理數字選字鍵〔可以換成別的哦〕、上、下候選定位、換頁鍵
@@ -53,20 +53,20 @@ engine:                # 輸入引擎設定，即掛接組件的「處方」
     - script_translator    # ※ 腳本翻譯器，用於拼音、粵拼等基於音節表的輸入方案
       #                        - 此項可加載多個實例，後接`@`+翻譯器名〔如：`pinyin`、`jyutping`等〕
     # - reverse_lookup_translator  # ※ 反查翻譯器，用另一種編碼方案查碼
-    # - history_translator   # 產生commit歷史候選
-      #                        ※ tag: 同 Translator 說明
-      #                        ※ initial_quality: 同 Translator 說明
-      #                        ※ size: 設定候選記錄量，預設: 0 等同(commit_record最大儲存量 20）
-      #                        ※ input: 觸發此翻譯器的字串
+    - history_translator   # 產生commit歷史候選
+                             ※ tag: 同 Translator 說明
+                             ※ initial_quality: 同 Translator 說明
+                             ※ size: 設定候選記錄量，預設: 0 等同(commit_record最大儲存量 20）
+                             ※ input: 觸發此翻譯器的字串
     # - lua_translator       # 使用`lua`自定義輸入，例如動態輸入當前日期、時間，後接`@`+`lua`函數名
       # #                          ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, seg, env)`
       # #                          ※ 可以`env.engine.context:get_option("option_name")`方式綁定到`switch`開關／`key_binder`快捷鍵
-  # filters:                 # 四、這批組件過濾翻譯的結果，自定義濾鏡皆可使用開關調控
-    # - uniquifier           # ※ 過濾重複的候選字，有可能來自繁簡轉換`simplifier`
+  filters:                 # 四、這批組件過濾翻譯的結果，自定義濾鏡皆可使用開關調控
+    - uniquifier           # ※ 過濾重複的候選字，有可能來自繁簡轉換`simplifier`
     # - cjk_minifier         # 字符集過濾〔僅用於`script_translator`，使之支援`extended_charset`開關〕
     # - single_char_filter   # 單字過濾器，如加載此組件，則屛敝詞典中的詞組〔僅`table_translator`有效〕
     # - simplifier           # ※ 繁簡用字轉換
-    # - reverse_lookup_filter #反查濾鏡，以更靈活的方式反查，Rime1.0後替代`reverse_lookup_translator`
+    - reverse_lookup_filter #反查濾鏡，以更靈活的方式反查，Rime1.0後替代`reverse_lookup_translator`
       #                      ※ 此項可加載多個實例，後接`@`+濾鏡名〔如：`pinyin_lookup`、`jyutping_lookup`等〕
     # - lua_filter           # 使用`lua`自定義過濾，例如過濾字符集、調整排序，後接`@`+`lua`函數名
       # #                      ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, env)`
@@ -378,10 +378,10 @@ speller:               # 衹於 ascii 且與 "punctuator" 衝突
     # fuzz --畧拼〔此種簡拼僅組詞，不出單字〕
     # xlit --變換〔適合大量一對一變換〕
     # erase --刪除
-  # max_code_length: "6"  # 形碼最大碼長，超過則頂字上屛〔`number`〕
-  # auto_select: true  # 自動上屛〔`true`或`false`〕
-  # # auto_select_pattern: # 自動上屏規則，以正則表達式描述，當輸入串可以被匹配時自動頂字上屏。
-  # use_space: false  # 以空格作輸入碼〔`true`或`false`〕
+  max_code_length: "6"  # 形碼最大碼長，超過則頂字上屛〔`number`〕
+  auto_select: true  # 自動上屛〔`true`或`false`〕
+  # auto_select_pattern: # 自動上屏規則，以正則表達式描述，當輸入串可以被匹配時自動頂字上屏。
+  use_space: false  # 以空格作輸入碼〔`true`或`false`〕
 translator:
   dictionary: &dict        # 設定 table_translator 使用的詞典名
     jek
