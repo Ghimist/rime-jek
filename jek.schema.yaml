@@ -1,0 +1,414 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# (C) 2026 ghimist
+#
+# Rime schema
+# encoding: utf-8
+#
+# Rime schema settings
+# encoding: utf-8
+
+schema:
+  schema_id: jek
+  name: "易畫"
+  version: '0.1'
+  author:
+    - Ghimist <https://github.com/Ghimist>
+  description: |
+    三碼蒼頡，由雪齋、惜緣等整理的蒼頡六代構詞碼碼表
+    結合 IDS data 的漢字結構信息推導出來。
+    原作爲朱邦復、沈紅蓮創造的蒼頡檢字法。
+    Ghimist映射小篆區塊依據<https://www.unicode.org/wg2/docs/n5344R-SmallSealProposal.pdf>
+engine:                # 輸入引擎設定，即掛接組件的「處方」
+  processors:            # 一、這批組件處理各類按鍵消息
+    - ascii_composer       # ※ 處理西文模式及中西文切換
+    # - recognizer           # ※ 與`matcher`搭配，處理符合特定規則的輸入碼，如網址、反查等`tags`
+    # - key_binder           # ※ 在特定條件下將按鍵綁定到其他按鍵，如重定義逗號、句號爲候選翻頁鍵等
+    - speller              # ※ 拼寫處理器，接受字符按鍵，編輯輸入碼
+    # - punctuator           # ※ 句讀處理器，將單個字符按鍵直接映射爲標點符號或文字符號
+    - selector             # ※ 選字處理器，處理數字選字鍵〔可以換成別的哦〕、上、下候選定位、換頁鍵
+    - navigator            # ※ 處理輸入欄內的光標移動鍵
+    - express_editor       # ※ 編輯器，處理空格、回車上屏、回退鍵等
+    # - fluid_editor         # ※ 句式編輯器，用於以空格斷詞、回車上屏的【注音】、【語句流】等輸入方案，替換`express_editor`，也可以寫作`fluency_editor`
+    # - chord_composer       # ※ 和絃作曲家或曰並擊處理器，用於【宮保拼音】等多鍵並擊的輸入方案
+    # - lua_processor        # 使用`lua`自定義按鍵，後接`@`+`tag`函數名
+      # #                          ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(key, env)`
+    # - table_translator     # ※ 碼表翻譯器，用於倉頡、五筆等基於碼表的輸入方案，替換`script_translator`
+  segmentors:            # 二、這批組件識別不同內容類型，將輸入碼分段並加上`tag`
+    - ascii_segmentor      # ※ 標識西文段落〔譬如在西文模式下〕字母直接上屛
+    # - matcher              # ※ 配合`recognizer`標識符合特定規則的段落，如網址、反查等，加上特定`tag`
+    - abc_segmentor        # ※ 標識常規的文字段落，加上`abc`這個`tag`
+    # - punct_segmentor      # ※ 標識句讀段落〔鍵入標點符號用〕加上`punct`這個`tag`
+    - fallback_segmentor   # ※ 標識其他未標識段落
+    # - affix_segmentor      # 用戶自定義`tag`
+      # #                          ※ 此項可加載多個實例，後接`@`+`tag`名
+    # - lua_segmentor        # 使用`lua`自定義切分，後接`@`+`lua`函數名
+  translators:             # 三、這批組件翻譯特定類型的編碼段爲一組候選文字
+    - echo_translator      # ※ 沒有其他候選字時，回顯輸入碼〔輸入碼可以`Shift`+`Enter`上屛〕
+    # - punct_translator     # ※ 配合`punct_segmentor`轉換標點符號
+    # - table_translator     # 碼表翻譯器，用於倉頡、五筆等基於碼表的輸入方案
+      # #                          - 此項可加載多個實例，後接`@`+翻譯器名〔如：`cangjie`、`wubi`等〕
+    - script_translator    # ※ 腳本翻譯器，用於拼音、粵拼等基於音節表的輸入方案
+      #                        - 此項可加載多個實例，後接`@`+翻譯器名〔如：`pinyin`、`jyutping`等〕
+    # - reverse_lookup_translator  # ※ 反查翻譯器，用另一種編碼方案查碼
+    # - history_translator   # 產生commit歷史候選
+      #                        ※ tag: 同 Translator 說明
+      #                        ※ initial_quality: 同 Translator 說明
+      #                        ※ size: 設定候選記錄量，預設: 0 等同(commit_record最大儲存量 20）
+      #                        ※ input: 觸發此翻譯器的字串
+    # - lua_translator       # 使用`lua`自定義輸入，例如動態輸入當前日期、時間，後接`@`+`lua`函數名
+      # #                          ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, seg, env)`
+      # #                          ※ 可以`env.engine.context:get_option("option_name")`方式綁定到`switch`開關／`key_binder`快捷鍵
+  # filters:                 # 四、這批組件過濾翻譯的結果，自定義濾鏡皆可使用開關調控
+    # - uniquifier           # ※ 過濾重複的候選字，有可能來自繁簡轉換`simplifier`
+    # - cjk_minifier         # 字符集過濾〔僅用於`script_translator`，使之支援`extended_charset`開關〕
+    # - single_char_filter   # 單字過濾器，如加載此組件，則屛敝詞典中的詞組〔僅`table_translator`有效〕
+    # - simplifier           # ※ 繁簡用字轉換
+    # - reverse_lookup_filter #反查濾鏡，以更靈活的方式反查，Rime1.0後替代`reverse_lookup_translator`
+      #                      ※ 此項可加載多個實例，後接`@`+濾鏡名〔如：`pinyin_lookup`、`jyutping_lookup`等〕
+    # - lua_filter           # 使用`lua`自定義過濾，例如過濾字符集、調整排序，後接`@`+`lua`函數名
+      # #                      ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, env)`
+      # #                      ※ 可以`env.engine.context:get_option("option_name")`方式綁定到`switch`開關／`key_binder`快捷鍵
+# switches:
+  # - name: full_shape
+    # states: [ 小, 大 ]
+# punctuator:            # 衹於 ascii 且與 "speller" 衝突
+  # half_shape: &symtable
+    # " " : # U+20
+    # "!" : # U+21
+    # "\"" : # U+22
+    # "#" : # U+23
+    # "$" : # U+24
+    # "%" : # U+25
+    # "&" : # U+26
+    # "'" : # U+27
+    # "(" : # U+28
+    # ")" : # U+29
+    # "*" : # U+2A
+    # "+" : # U+2B
+    # "," : # U+2C
+    # "-" : # U+2D
+    # "." : # U+2E
+    # "/" : # U+2F
+    # "0" : # U+30
+    # "1" : # U+31
+    # "2" : # U+32
+    # "3" : # U+33
+    # "4" : # U+34
+    # "5" : # U+35
+    # "6" : # U+36
+    # "7" : # U+37
+    # "8" : # U+38
+    # "9" : # U+39
+    # ":" : # U+3A
+    # ";" : # U+3B
+    # "<" : # U+3C
+    # "=" : # U+3D
+    # ">" : # U+3E
+    # "?" : # U+3F
+    # "@" : # U+40
+    # "A" : # U+41
+    # "B" : # U+42
+    # "C" : # U+43
+    # "D" : # U+44
+    # "E" : # U+45
+    # "F" : # U+46
+    # "G" : # U+47
+    # "H" : # U+48
+    # "I" : # U+49
+    # "J" : # U+4A
+    # "K" : # U+4B
+    # "L" : # U+4C
+    # "M" : # U+4D
+    # "N" : # U+4E
+    # "O" : # U+4F
+    # "P" : # U+50
+    # "Q" : # U+51
+    # "R" : # U+52
+    # "S" : # U+53
+    # "T" : # U+54
+    # "U" : # U+55
+    # "V" : # U+56
+    # "W" : # U+57
+    # "X" : # U+58
+    # "Y" : # U+59
+    # "Z" : # U+5A
+    # "[" : # U+5B
+    # "\\" : # U+5C
+    # "]" : # U+5D
+    # "^" : # U+5E
+    # "_" : # U+5F
+    # "`" : # U+60
+    # "a" : # U+61
+    # "b" : # U+62
+    # "c" : # U+63
+    # "d" : # U+64
+    # "e" : # U+65
+    # "f" : # U+66
+    # "g" : # U+67
+    # "h" : # U+68
+    # "i" : # U+69
+    # "j" : # U+6A
+    # "k" : # U+6B
+    # "l" : # U+6C
+    # "m" : # U+6D
+    # "n" : # U+6E
+    # "o" : # U+6F
+    # "p" : # U+70
+    # "q" : # U+71
+    # "r" : # U+72
+    # "s" : # U+73
+    # "t" : # U+74
+    # "u" : # U+75
+    # "v" : # U+76
+    # "w" : # U+77
+    # "x" : # U+78
+    # "y" : # U+79
+    # "z" : # U+7A
+    # "{" : # U+7B
+    # "|" : # U+7C
+    # "}" : # U+7D
+    # "~" : # U+7E
+  # full_shape: *symtable
+speller:               # 衹於 ascii 且與 "punctuator" 衝突
+  alphabet: zyxwvutsrqponmlkjihgfedcba  # 碼表射鍵入，是反字母矢  # 定義本方案輸入鍵
+  # initials: # 定義僅作始碼之鍵
+  # finals: # 定義僅作末碼之鍵
+  delimiter: " '"
+    # 隔音符號用「'」；第一位的空白用來自動插入到音節邊界處  # 上屛時的音節間分音符
+  algebra:  # 拼寫運算規則，由之算出的拼寫匯入`prism`中。這個纔是實現雙拼方案的重點。寫法有很多種，當然也可以把四百多個音節碼一條一條地列舉
+    - derive/䷀/⚊⚊⚊⚊⚊⚊/
+    - derive/䷁/⚋⚋⚋⚋⚋⚋/
+    - derive/䷂/⚋⚊⚋⚋⚋⚊/
+    - derive/䷃/⚊⚋⚋⚋⚊⚋/
+    - derive/䷄/⚋⚊⚋⚊⚊⚊/
+    - derive/䷅/⚊⚊⚊⚋⚊⚋/
+    - derive/䷆/⚋⚋⚋⚋⚊⚋/
+    - derive/䷇/⚋⚊⚋⚋⚋⚋/
+    - derive/䷈/⚊⚊⚋⚊⚊⚊/
+    - derive/䷉/⚊⚊⚊⚋⚊⚊/
+    - derive/䷊/⚋⚋⚋⚊⚊⚊/
+    - derive/䷋/⚊⚊⚊⚋⚋⚋/
+    - derive/䷌/⚊⚊⚊⚊⚋⚊/
+    - derive/䷍/⚊⚋⚊⚊⚊⚊/
+    - derive/䷎/⚋⚋⚋⚊⚋⚋/
+    - derive/䷏/⚋⚋⚊⚋⚋⚋/
+    - derive/䷐/⚋⚊⚊⚋⚋⚊/
+    - derive/䷑/⚊⚋⚋⚊⚊⚋/
+    - derive/䷒/⚋⚋⚋⚋⚊⚊/
+    - derive/䷓/⚊⚊⚋⚋⚋⚋/
+    - derive/䷔/⚊⚋⚊⚋⚋⚊/
+    - derive/䷕/⚊⚋⚋⚊⚋⚊/
+    - derive/䷖/⚊⚋⚋⚋⚋⚋/
+    - derive/䷗/⚋⚋⚋⚋⚋⚊/
+    - derive/䷘/⚊⚊⚊⚋⚋⚊/
+    - derive/䷙/⚊⚋⚋⚊⚊⚊/
+    - derive/䷚/⚊⚋⚋⚋⚋⚊/
+    - derive/䷛/⚋⚊⚊⚊⚊⚋/
+    - derive/䷜/⚋⚊⚋⚋⚊⚋/
+    - derive/䷝/⚊⚋⚊⚊⚋⚊/
+    - derive/䷞/⚋⚊⚊⚊⚋⚋/
+    - derive/䷟/⚋⚋⚊⚊⚊⚋/
+    - derive/䷠/⚊⚊⚊⚊⚋⚋/
+    - derive/䷡/⚋⚋⚊⚊⚊⚊/
+    - derive/䷢/⚊⚋⚊⚋⚋⚋/
+    - derive/䷣/⚋⚋⚋⚊⚋⚊/
+    - derive/䷤/⚊⚊⚋⚊⚋⚊/
+    - derive/䷥/⚊⚋⚊⚋⚊⚊/
+    - derive/䷦/⚋⚊⚋⚊⚋⚋/
+    - derive/䷧/⚋⚋⚊⚋⚊⚋/
+    - derive/䷨/⚊⚋⚋⚋⚊⚊/
+    - derive/䷩/⚊⚊⚋⚋⚋⚊/
+    - derive/䷪/⚋⚊⚊⚊⚊⚊/
+    - derive/䷫/⚊⚊⚊⚊⚊⚋/
+    - derive/䷬/⚋⚊⚊⚋⚋⚋/
+    - derive/䷭/⚋⚋⚋⚊⚊⚋/
+    - derive/䷮/⚋⚊⚊⚋⚊⚋/
+    - derive/䷯/⚋⚊⚋⚊⚊⚋/
+    - derive/䷰/⚋⚊⚊⚊⚋⚊/
+    - derive/䷱/⚊⚋⚊⚊⚊⚋/
+    - derive/䷲/⚋⚋⚊⚋⚋⚊/
+    - derive/䷳/⚊⚋⚋⚊⚋⚋/
+    - derive/䷴/⚊⚊⚋⚊⚋⚋/
+    - derive/䷵/⚋⚋⚊⚋⚊⚊/
+    - derive/䷶/⚋⚋⚊⚊⚋⚊/
+    - derive/䷷/⚊⚋⚊⚊⚋⚋/
+    - derive/䷸/⚊⚊⚋⚊⚊⚋/
+    - derive/䷹/⚋⚊⚊⚋⚊⚊/
+    - derive/䷺/⚊⚊⚋⚋⚊⚋/
+    - derive/䷻/⚋⚊⚋⚋⚊⚊/
+    - derive/䷼/⚊⚊⚋⚋⚊⚊/
+    - derive/䷽/⚋⚋⚊⚊⚋⚋/
+    - derive/䷾/⚋⚊⚋⚊⚋⚊/
+    - derive/䷿/⚊⚋⚊⚋⚊⚋/
+    - derive/𝌆/⚊⚊⚊⚊/
+    - derive/𝌇/⚊⚊⚊⚋/
+    - derive/𝌈/⚊⚊⚊𝌀/
+    - derive/𝌉/⚊⚊⚋⚊/
+    - derive/𝌊/⚊⚊⚋⚋/
+    - derive/𝌋/⚊⚊⚋𝌀/
+    - derive/𝌌/⚊⚊𝌀⚊/
+    - derive/𝌍/⚊⚊𝌀⚋/
+    - derive/𝌎/⚊⚊𝌀𝌀/
+    - derive/𝌏/⚊⚋⚊⚊/
+    - derive/𝌐/⚊⚋⚊⚋/
+    - derive/𝌑/⚊⚋⚊𝌀/
+    - derive/𝌒/⚊⚋⚋⚊/
+    - derive/𝌓/⚊⚋⚋⚋/
+    - derive/𝌔/⚊⚋⚋𝌀/
+    - derive/𝌕/⚊⚋𝌀⚊/
+    - derive/𝌖/⚊⚋𝌀⚋/
+    - derive/𝌗/⚊⚋𝌀𝌀/
+    - derive/𝌘/⚊𝌀⚊⚊/
+    - derive/𝌙/⚊𝌀⚊⚋/
+    - derive/𝌚/⚊𝌀⚊𝌀/
+    - derive/𝌛/⚊𝌀⚋⚊/
+    - derive/𝌜/⚊𝌀⚋⚋/
+    - derive/𝌝/⚊𝌀⚋𝌀/
+    - derive/𝌞/⚊𝌀𝌀⚊/
+    - derive/𝌟/⚊𝌀𝌀⚋/
+    - derive/𝌠/⚊𝌀𝌀𝌀/
+    - derive/𝌡/⚋⚊⚊⚊/
+    - derive/𝌢/⚋⚊⚊⚋/
+    - derive/𝌣/⚋⚊⚊𝌀/
+    - derive/𝌤/⚋⚊⚋⚊/
+    - derive/𝌥/⚋⚊⚋⚋/
+    - derive/𝌦/⚋⚊⚋𝌀/
+    - derive/𝌧/⚋⚊𝌀⚊/
+    - derive/𝌨/⚋⚊𝌀⚋/
+    - derive/𝌩/⚋⚊𝌀𝌀/
+    - derive/𝌪/⚋⚋⚊⚊/
+    - derive/𝌫/⚋⚋⚊⚋/
+    - derive/𝌬/⚋⚋⚊𝌀/
+    - derive/𝌭/⚋⚋⚋⚊/
+    - derive/𝌮/⚋⚋⚋⚋/
+    - derive/𝌯/⚋⚋⚋𝌀/
+    - derive/𝌰/⚋⚋𝌀⚊/
+    - derive/𝌱/⚋⚋𝌀⚋/
+    - derive/𝌲/⚋⚋𝌀𝌀/
+    - derive/𝌳/⚋𝌀⚊⚊/
+    - derive/𝌴/⚋𝌀⚊⚋/
+    - derive/𝌵/⚋𝌀⚊𝌀/
+    - derive/𝌶/⚋𝌀⚋⚊/
+    - derive/𝌷/⚋𝌀⚋⚋/
+    - derive/𝌸/⚋𝌀⚋𝌀/
+    - derive/𝌹/⚋𝌀𝌀⚊/
+    - derive/𝌺/⚋𝌀𝌀⚋/
+    - derive/𝌻/⚋𝌀𝌀𝌀/
+    - derive/𝌼/𝌀⚊⚊⚊/
+    - derive/𝌽/𝌀⚊⚊⚋/
+    - derive/𝌾/𝌀⚊⚊𝌀/
+    - derive/𝌿/𝌀⚊⚋⚊/
+    - derive/𝍀/𝌀⚊⚋⚋/
+    - derive/𝍁/𝌀⚊⚋𝌀/
+    - derive/𝍂/𝌀⚊𝌀⚊/
+    - derive/𝍃/𝌀⚊𝌀⚋/
+    - derive/𝍄/𝌀⚊𝌀𝌀/
+    - derive/𝍅/𝌀⚋⚊⚊/
+    - derive/𝍆/𝌀⚋⚊⚋/
+    - derive/𝍇/𝌀⚋⚊𝌀/
+    - derive/𝍈/𝌀⚋⚋⚊/
+    - derive/𝍉/𝌀⚋⚋⚋/
+    - derive/𝍊/𝌀⚋⚋𝌀/
+    - derive/𝍋/𝌀⚋𝌀⚊/
+    - derive/𝍌/𝌀⚋𝌀⚋/
+    - derive/𝍍/𝌀⚋𝌀𝌀/
+    - derive/𝍎/𝌀𝌀⚊⚊/
+    - derive/𝍏/𝌀𝌀⚊⚋/
+    - derive/𝍐/𝌀𝌀⚊𝌀/
+    - derive/𝍑/𝌀𝌀⚋⚊/
+    - derive/𝍒/𝌀𝌀⚋⚋/
+    - derive/𝍓/𝌀𝌀⚋𝌀/
+    - derive/𝍔/𝌀𝌀𝌀⚊/
+    - derive/𝍕/𝌀𝌀𝌀⚋/
+    - derive/𝍖/𝌀𝌀𝌀𝌀/
+    - derive/⚊⚊⚊/☰/
+    - derive/⚋⚊⚊/☱/
+    - derive/⚊⚋⚊/☲/
+    - derive/⚋⚋⚊/☳/
+    - derive/⚊⚊⚋/☴/
+    - derive/⚋⚊⚋/☵/
+    - derive/⚊⚋⚋/☶/
+    - derive/⚋⚋⚋/☷/
+    - derive/⚊⚊/⚌/
+    - derive/⚋⚊/⚍/
+    - derive/⚊⚋/⚎/
+    - derive/⚋⚋/⚏/
+    - derive/𝌀⚊/𝌁/
+    - derive/⚊𝌀/𝌂/
+    - derive/⚋𝌀/𝌃/
+    - derive/𝌀⚋/𝌄/
+    - derive/𝌀𝌀/𝌅/
+    - derive/⚊⚊/⚌/
+    - derive/⚋⚊/⚍/
+    - derive/⚊⚋/⚎/
+    - derive/⚋⚋/⚏/
+    - xlit/四𝌂⚎☱⚊⚋☶⚏𝌃𝌀/qwertyuiop/
+    - xlit/五☰☴☲𝌁𝌄☵☳☷/asdfghjkl/
+    - xlit/六七八九⚌⚍𝌅/zxcvbnm/
+    # derive --改寫〔不保留原形〕
+    # derive --衍生〔保留原形〕
+    # abbrev --簡拼〔出字優先級較上兩組更低〕
+    # fuzz --畧拼〔此種簡拼僅組詞，不出單字〕
+    # xlit --變換〔適合大量一對一變換〕
+    # erase --刪除
+  # max_code_length: "6"  # 形碼最大碼長，超過則頂字上屛〔`number`〕
+  # auto_select: true  # 自動上屛〔`true`或`false`〕
+  # # auto_select_pattern: # 自動上屏規則，以正則表達式描述，當輸入串可以被匹配時自動頂字上屏。
+  # use_space: false  # 以空格作輸入碼〔`true`或`false`〕
+translator:
+  dictionary: &dict        # 設定 table_translator 使用的詞典名
+    jek
+  # 用戶字典功能
+  enable_user_dict: false   # 不想自動調頻的話，將上條中「true」改爲「false」
+  # 句子輸入模式
+  enable_sentence: true
+  sentence_over_completion: true # 優先使用句子模式，而不是詞組補全
+  # 智能組詞功能
+  enable_encoder: true     # 不想自動組詞〔記錄輸入過的詞，然後變成五碼固定詞〕的話可以把上條中「true」改爲「false」
+  encode_commit_history: true
+  max_phrase_length: 7
+  # 顯示格式設定
+  preedit_format:  # 輸入區顯示轉換
+    - xlit|kwtnpmzsqhjlr|ㄱㆁㄷㄴㅂㅁㅈㅅㆆㅎㅇㄹㅿ|
+    - xlit|yvioaue|ㆍㅡㅣㅗㅏㅜㅓ|
+    - xlit|gdbx|ㄲㄸㅃㆅ|
+    - xlit|f|〮|
+    - xlit|c|・|
+    # - xform/([가-힣])/[$1]/
+    - xform/ㄱㅎ/ㅋ/	# 四送气
+    - xform/ㄷㅎ/ㅌ/
+    - xform/ㅂㅎ/ㅍ/
+    - xform/ㅈㅎ/ㅊ/
+    - xform/ㄱㄱ/ㄲ/	# 六竝濁
+    - xform/ㄷㄷ/ㄸ/
+    - xform/ㅂㅂ/ㅃ/
+    - xform/ㅈㅈ/ㅉ/
+    - xform/ㅅㅅ/ㅆ/
+    - xform/ㅎㅎ/ㆅ/
+    - xform/〮〮/〯/	# 諺文去上
+    - xform/([ᆨ-ᇿퟋ-ퟻ])ㄸ/$1〇/	# \u11A8-\u11FF\uD7CB-\uD7FB
+  comment_format:  # 𠊱選字注解區顯示轉換
+    - xlit|kwtnpmzsqhjlr~|ㄱㆁㄷㄴㅂㅁㅈㅅㆆㅎㅇㄹㅿ㉆|  #・
+    - xlit|yvioaue|ㆍㅡㅣㅗㅏㅜㅓ|
+    - xlit|gdbx|ㄲㄸㅃㆅ|
+    - xlit|f|〮|
+    - xlit|c|〶|
+    # - xform/([가-힣])/[$1]/
+    - xform/ㄱㅎ/ㅋ/	# 四送气
+    - xform/ㄷㅎ/ㅌ/
+    - xform/ㅂㅎ/ㅍ/
+    - xform/ㅈㅎ/ㅊ/
+    - xform/ㄱㄱ/ㄲ/	# 六竝濁
+    - xform/ㄷㄷ/ㄸ/
+    - xform/ㅂㅂ/ㅃ/
+    - xform/ㅈㅈ/ㅉ/
+    - xform/ㅅㅅ/ㅆ/
+    - xform/ㅎㅎ/ㆅ/
+    - xform/〮〮/〯/	# 諺文去上
+    - xform/([ᆨ-ᇿퟋ-ퟻ])ㄸ/$1讀/	# \u11A8-\u11FF\uD7CB-\uD7FB
+    # - xform/([ᄀ-ᅟꥠ-ꥼㄱ-ㅎㅤㅥ-ㆆ])ㄸ/$1讀/	# \u1100-\u115F\uA960-\uA97C
+    # - xform/([ᅠ-ᆧힰ-ퟆㅏ-ㅣㅤㆇ-ㆎ])ㄸ/$1讀/	# \u1160-\u11A7\uD7B0-\uD7C6
+  initial_quality: 0.75	# 調整該編譯器出字優先度
