@@ -387,45 +387,13 @@ translator:
   max_phrase_length: 7
   # 顯示格式設定
   preedit_format:  # 輸入區顯示轉換
-    - xlit|kwtnpmzsqhjlr|ㄱㆁㄷㄴㅂㅁㅈㅅㆆㅎㅇㄹㅿ|
-    - xlit|yvioaue|ㆍㅡㅣㅗㅏㅜㅓ|
-    - xlit|gdbx|ㄲㄸㅃㆅ|
-    - xlit|f|〮|
-    - xlit|c|・|
-    # - xform/([가-힣])/[$1]/
-    - xform/ㄱㅎ/ㅋ/	# 四送气
-    - xform/ㄷㅎ/ㅌ/
-    - xform/ㅂㅎ/ㅍ/
-    - xform/ㅈㅎ/ㅊ/
-    - xform/ㄱㄱ/ㄲ/	# 六竝濁
-    - xform/ㄷㄷ/ㄸ/
-    - xform/ㅂㅂ/ㅃ/
-    - xform/ㅈㅈ/ㅉ/
-    - xform/ㅅㅅ/ㅆ/
-    - xform/ㅎㅎ/ㆅ/
-    - xform/〮〮/〯/	# 諺文去上
-    - xform/([ᆨ-ᇿퟋ-ퟻ])ㄸ/$1〇/	# \u11A8-\u11FF\uD7CB-\uD7FB
+    - xlit|qwertyuiop|五𝌁⚎☱⚊⚋☶⚏𝌂四|
+    - xlit|asdfghjkl|𝌀☰☴☲𝌃𝌄☵☳☷|
+    - xlit|zxcvbnm|六七八九⚌⚍𝌅|
   comment_format:  # 𠊱選字注解區顯示轉換
-    - xlit|kwtnpmzsqhjlr~|ㄱㆁㄷㄴㅂㅁㅈㅅㆆㅎㅇㄹㅿ㉆|  #・
-    - xlit|yvioaue|ㆍㅡㅣㅗㅏㅜㅓ|
-    - xlit|gdbx|ㄲㄸㅃㆅ|
-    - xlit|f|〮|
-    - xlit|c|〶|
-    # - xform/([가-힣])/[$1]/
-    - xform/ㄱㅎ/ㅋ/	# 四送气
-    - xform/ㄷㅎ/ㅌ/
-    - xform/ㅂㅎ/ㅍ/
-    - xform/ㅈㅎ/ㅊ/
-    - xform/ㄱㄱ/ㄲ/	# 六竝濁
-    - xform/ㄷㄷ/ㄸ/
-    - xform/ㅂㅂ/ㅃ/
-    - xform/ㅈㅈ/ㅉ/
-    - xform/ㅅㅅ/ㅆ/
-    - xform/ㅎㅎ/ㆅ/
-    - xform/〮〮/〯/	# 諺文去上
-    - xform/([ᆨ-ᇿퟋ-ퟻ])ㄸ/$1讀/	# \u11A8-\u11FF\uD7CB-\uD7FB
-    # - xform/([ᄀ-ᅟꥠ-ꥼㄱ-ㅎㅤㅥ-ㆆ])ㄸ/$1讀/	# \u1100-\u115F\uA960-\uA97C
-    # - xform/([ᅠ-ᆧힰ-ퟆㅏ-ㅣㅤㆇ-ㆎ])ㄸ/$1讀/	# \u1160-\u11A7\uD7B0-\uD7C6
+    - xlit|qwertyuiop|五𝌁⚎☱⚊⚋☶⚏𝌂四|
+    - xlit|asdfghjkl|𝌀☰☴☲𝌃𝌄☵☳☷|
+    - xlit|zxcvbnm|六七八九⚌⚍𝌅|
   initial_quality: 0.75	# 調整該編譯器出字優先度
 
 # style:
