@@ -427,3 +427,13 @@ translator:
     # - xform/([ᄀ-ᅟꥠ-ꥼㄱ-ㅎㅤㅥ-ㆆ])ㄸ/$1讀/	# \u1100-\u115F\uA960-\uA97C
     # - xform/([ᅠ-ᆧힰ-ퟆㅏ-ㅣㅤㆇ-ㆎ])ㄸ/$1讀/	# \u1160-\u11A7\uD7B0-\uD7C6
   initial_quality: 0.75	# 調整該編譯器出字優先度
+
+# style:
+  # label_font_face: "Seal Sans:30000:3FC3F:normal:normal"
+  # comment_font_face: "Seal Sans:30000:3FC3F:normal:normal"
+  # font_face: "Seal Sans:30000:3FC3F:bold:normal"
+  # label_font_point: 16
+  # comment_font_point: 24
+  # font_point: 32
+  # # thin|extra_light|ultra_light|light|semi_light|medium|demi_bold|semi_bold|bold|extra_bold|ultra_bold|black|heavy|extra_black|ultra_black|normal
+  # # italic|oblique|normal
