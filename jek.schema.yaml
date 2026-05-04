@@ -324,6 +324,23 @@ speller:               # 衹於 ascii 且與 "punctuator" 衝突
     - xform/𝍔/𝌀𝌀𝌀⚊/
     - xform/𝍕/𝌀𝌀𝌀⚋/
     - xform/𝍖/𝌀𝌀𝌀𝌀/
+    - xform/☰/⚊⚊⚊/
+    - xform/☱/⚋⚊⚊/
+    - xform/☲/⚊⚋⚊/
+    - xform/☳/⚋⚋⚊/
+    - xform/☴/⚊⚊⚋/
+    - xform/☵/⚋⚊⚋/
+    - xform/☶/⚊⚋⚋/
+    - xform/☷/⚋⚋⚋/
+    - xform/⚌/⚊⚊/
+    - xform/⚍/⚋⚊/
+    - xform/⚎/⚊⚋/
+    - xform/⚏/⚋⚋/
+    - xform/𝌁/⚊𝌀/
+    - xform/𝌂/⚋𝌀/
+    - xform/𝌃/𝌀⚊/
+    - xform/𝌄/𝌀⚋/
+    - xform/𝌅/𝌀𝌀/
 
     - derive/⚊⚊⚊/☰/
     - derive/⚋⚊⚊/☱/
