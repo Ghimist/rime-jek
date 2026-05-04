@@ -337,15 +337,12 @@ speller:               # 衹於 ascii 且與 "punctuator" 衝突
     - derive/⚋⚊/⚍/
     - derive/⚊⚋/⚎/
     - derive/⚋⚋/⚏/
-    - derive/𝌀⚊/𝌁/
-    - derive/⚊𝌀/𝌂/
-    - derive/⚋𝌀/𝌃/
+    - derive/⚊𝌀/𝌁/
+    - derive/⚋𝌀/𝌂/
+    - derive/𝌀⚊/𝌃/
     - derive/𝌀⚋/𝌄/
     - derive/𝌀𝌀/𝌅/
-    - derive/⚊⚊/⚌/
-    - derive/⚋⚊/⚍/
-    - derive/⚊⚋/⚎/
-    - derive/⚋⚋/⚏/
+
     - xlit/五𝌁⚎☱⚊⚋☶⚏𝌂四/qwertyuiop/
     - xlit/𝌀☰☴☲𝌃𝌄☵☳☷/asdfghjkl/
     - xlit/六七八九⚌⚍𝌅/zxcvbnm/
