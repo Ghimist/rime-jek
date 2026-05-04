@@ -346,8 +346,8 @@ speller:               # 衹於 ascii 且與 "punctuator" 衝突
     - derive/⚋⚊/⚍/
     - derive/⚊⚋/⚎/
     - derive/⚋⚋/⚏/
-    - xlit/四𝌂⚎☱⚊⚋☶⚏𝌃𝌀/qwertyuiop/
-    - xlit/五☰☴☲𝌁𝌄☵☳☷/asdfghjkl/
+    - xlit/五𝌁⚎☱⚊⚋☶⚏𝌂四/qwertyuiop/
+    - xlit/𝌀☰☴☲𝌃𝌄☵☳☷/asdfghjkl/
     - xlit/六七八九⚌⚍𝌅/zxcvbnm/
     # derive --改寫〔不保留原形〕
     # derive --衍生〔保留原形〕
