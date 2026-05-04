@@ -360,6 +360,15 @@ speller:               # 衹於 ascii 且與 "punctuator" 衝突
     - derive/𝌀⚋/𝌄/
     - derive/𝌀𝌀/𝌅/
 
+    - derive/⚋/四/
+    - derive/⚊/五/
+    - derive/⚋/六/
+    - derive/⚊/七/
+    - derive/⚋/八/
+    - derive/⚊/九/
+    - derive/𝌀/九/
+    # - derive/^([⚊⚋])([⚊⚋])([⚊⚋])([⚊⚋])([⚊⚋])([⚊⚋])$/b$6$5$4$3$2$1/
+
     - xlit/五𝌁⚎☱⚊⚋☶⚏𝌂四/qwertyuiop/
     - xlit/𝌀☰☴☲𝌃𝌄☵☳☷/asdfghjkl/
     - xlit/六七八九⚌⚍𝌅/zxcvbnm/
