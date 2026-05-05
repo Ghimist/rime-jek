@@ -4,73 +4,69 @@
 #
 # (C) 2026 ghimist
 #
-# Rime schema
-# encoding: utf-8
-#
 # Rime schema settings
 # encoding: utf-8
 
 schema:
   schema_id: jek
-  name: "易畫"
-  version: '0.1'
+  name: "易畫䷾𝍎"
+  version: '0.2'
   author:
     - Ghimist <https://github.com/Ghimist>
   description: |
-    三碼蒼頡，由雪齋、惜緣等整理的蒼頡六代構詞碼碼表
-    結合 IDS data 的漢字結構信息推導出來。
-    原作爲朱邦復、沈紅蓮創造的蒼頡檢字法。
-    Ghimist映射小篆區塊依據<https://www.unicode.org/wg2/docs/n5344R-SmallSealProposal.pdf>
+    - 2026.5.04晨艸造
+    -        05日初𝍎
+    - 尚有蠹，巳堪日用，將不修，以倦怠故也……
 engine:                # 輸入引擎設定，即掛接組件的「處方」
   processors:            # 一、這批組件處理各類按鍵消息
     - ascii_composer       # ※ 處理西文模式及中西文切換
     - recognizer           # ※ 與`matcher`搭配，處理符合特定規則的輸入碼，如網址、反查等`tags`
     - key_binder           # ※ 在特定條件下將按鍵綁定到其他按鍵，如重定義逗號、句號爲候選翻頁鍵等
     - speller              # ※ 拼寫處理器，接受字符按鍵，編輯輸入碼
-    # - punctuator           # ※ 句讀處理器，將單個字符按鍵直接映射爲標點符號或文字符號
+    - punctuator           # ※ 句讀處理器，將單個字符按鍵直接映射爲標點符號或文字符號
     - selector             # ※ 選字處理器，處理數字選字鍵〔可以換成別的哦〕、上、下候選定位、換頁鍵
     - navigator            # ※ 處理輸入欄內的光標移動鍵
     - express_editor       # ※ 編輯器，處理空格、回車上屏、回退鍵等
     # - fluid_editor         # ※ 句式編輯器，用於以空格斷詞、回車上屏的【注音】、【語句流】等輸入方案，替換`express_editor`，也可以寫作`fluency_editor`
     # - chord_composer       # ※ 和絃作曲家或曰並擊處理器，用於【宮保拼音】等多鍵並擊的輸入方案
     # - lua_processor        # 使用`lua`自定義按鍵，後接`@`+`tag`函數名
-      # #                          ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(key, env)`
+      # #                        ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(key, env)`
     # - table_translator     # ※ 碼表翻譯器，用於倉頡、五筆等基於碼表的輸入方案，替換`script_translator`
   segmentors:            # 二、這批組件識別不同內容類型，將輸入碼分段並加上`tag`
     - ascii_segmentor      # ※ 標識西文段落〔譬如在西文模式下〕字母直接上屛
-    # - matcher              # ※ 配合`recognizer`標識符合特定規則的段落，如網址、反查等，加上特定`tag`
+    - matcher              # ※ 配合`recognizer`標識符合特定規則的段落，如網址、反查等，加上特定`tag`
     - abc_segmentor        # ※ 標識常規的文字段落，加上`abc`這個`tag`
-    # - punct_segmentor      # ※ 標識句讀段落〔鍵入標點符號用〕加上`punct`這個`tag`
+    - punct_segmentor      # ※ 標識句讀段落〔鍵入標點符號用〕加上`punct`這個`tag`
     - fallback_segmentor   # ※ 標識其他未標識段落
     # - affix_segmentor      # 用戶自定義`tag`
-      # #                          ※ 此項可加載多個實例，後接`@`+`tag`名
+      # #                        ※ 此項可加載多個實例，後接`@`+`tag`名
     # - lua_segmentor        # 使用`lua`自定義切分，後接`@`+`lua`函數名
-  translators:             # 三、這批組件翻譯特定類型的編碼段爲一組候選文字
+  translators:           # 三、這批組件翻譯特定類型的編碼段爲一組候選文字
     - echo_translator      # ※ 沒有其他候選字時，回顯輸入碼〔輸入碼可以`Shift`+`Enter`上屛〕
-    # - punct_translator     # ※ 配合`punct_segmentor`轉換標點符號
+    - punct_translator     # ※ 配合`punct_segmentor`轉換標點符號
     # - table_translator     # 碼表翻譯器，用於倉頡、五筆等基於碼表的輸入方案
-      # #                          - 此項可加載多個實例，後接`@`+翻譯器名〔如：`cangjie`、`wubi`等〕
+      # #                        - 此項可加載多個實例，後接`@`+翻譯器名〔如：`cangjie`、`wubi`等〕
     - script_translator    # ※ 腳本翻譯器，用於拼音、粵拼等基於音節表的輸入方案
-      #                        - 此項可加載多個實例，後接`@`+翻譯器名〔如：`pinyin`、`jyutping`等〕
+      # #                        - 此項可加載多個實例，後接`@`+翻譯器名〔如：`pinyin`、`jyutping`等〕
     # - reverse_lookup_translator  # ※ 反查翻譯器，用另一種編碼方案查碼
     - history_translator   # 產生commit歷史候選
-                             ※ tag: 同 Translator 說明
-                             ※ initial_quality: 同 Translator 說明
-                             ※ size: 設定候選記錄量，預設: 0 等同(commit_record最大儲存量 20）
-                             ※ input: 觸發此翻譯器的字串
+      #                        ※ tag: 同 Translator 說明
+      #                        ※ initial_quality: 同 Translator 說明
+      #                        ※ size: 設定候選記錄量，預設: 0 等同(commit_record最大儲存量 20）
+      #                        ※ input: 觸發此翻譯器的字串
     # - lua_translator       # 使用`lua`自定義輸入，例如動態輸入當前日期、時間，後接`@`+`lua`函數名
-      # #                          ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, seg, env)`
-      # #                          ※ 可以`env.engine.context:get_option("option_name")`方式綁定到`switch`開關／`key_binder`快捷鍵
-  filters:                 # 四、這批組件過濾翻譯的結果，自定義濾鏡皆可使用開關調控
+      # #                        ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, seg, env)`
+      # #                        ※ 可以`env.engine.context:get_option("option_name")`方式綁定到`switch`開關／`key_binder`快捷鍵
+  filters:               # 四、這批組件過濾翻譯的結果，自定義濾鏡皆可使用開關調控
     - uniquifier           # ※ 過濾重複的候選字，有可能來自繁簡轉換`simplifier`
     # - cjk_minifier         # 字符集過濾〔僅用於`script_translator`，使之支援`extended_charset`開關〕
     # - single_char_filter   # 單字過濾器，如加載此組件，則屛敝詞典中的詞組〔僅`table_translator`有效〕
     # - simplifier           # ※ 繁簡用字轉換
     - reverse_lookup_filter #反查濾鏡，以更靈活的方式反查，Rime1.0後替代`reverse_lookup_translator`
-      #                      ※ 此項可加載多個實例，後接`@`+濾鏡名〔如：`pinyin_lookup`、`jyutping_lookup`等〕
+      #                        ※ 此項可加載多個實例，後接`@`+濾鏡名〔如：`pinyin_lookup`、`jyutping_lookup`等〕
     # - lua_filter           # 使用`lua`自定義過濾，例如過濾字符集、調整排序，後接`@`+`lua`函數名
-      # #                      ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, env)`
-      # #                      ※ 可以`env.engine.context:get_option("option_name")`方式綁定到`switch`開關／`key_binder`快捷鍵
+      # #                        ※ `lua`函數名即用戶文件夾內`rime.lua`中函數名，參數爲`(input, env)`
+      # #                        ※ 可以`env.engine.context:get_option("option_name")`方式綁定到`switch`開關／`key_binder`快捷鍵
 # switches:
   # - name: full_shape
     # states: [ 小, 大 ]
